@@ -14,6 +14,8 @@ Authentication. Tasks 0–7:
 6. `SessionAuth.current_user` — resolves a `User` from the session cookie
 7. `POST /api/v1/auth_session/login` — email/password login that creates
    a session and sets the cookie (`api/v1/views/session_auth.py`)
+8. `SessionAuth.destroy_session` and `DELETE /api/v1/auth_session/logout`
+   — deletes the Session ID from `user_id_by_session_id` (logout)
 
 ## Setup
 
@@ -38,6 +40,9 @@ curl "http://0.0.0.0:5000/api/v1/auth_session/login" \
 
 # Use the cookie to access a protected route
 curl "http://0.0.0.0:5000/api/v1/users/me" -b cookies.txt
+
+# Log out (deletes the session)
+curl "http://0.0.0.0:5000/api/v1/auth_session/logout" -b cookies.txt -XDELETE
 ```
 
 ## Test scripts

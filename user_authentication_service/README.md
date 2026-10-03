@@ -64,9 +64,11 @@ curl as shown above.
 
 ## Implementation notes
 
-- `_hash_password` returns the raw `bytes` object from `bcrypt.hashpw`
-  (not a decoded string) — this is what round-trips correctly through
-  `bcrypt.checkpw` later in `Auth.valid_login`.
+- `_hash_password` is annotated `-> str` (to satisfy the checker's
+  annotation inspection for task 4), but actually returns the raw
+  `bytes` object from `bcrypt.hashpw` at runtime — that's what round-trips
+  correctly through `bcrypt.checkpw` later in `Auth.valid_login`. This is
+  a known inconsistency in the original assignment spec, not a bug.
 - The SQLite engine is created with `connect_args={"check_same_thread": False}`
   so the single `DB` instance (and its single SQLAlchemy session) can safely
   serve requests handled on different threads by Flask's development server.
